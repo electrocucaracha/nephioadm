@@ -1,0 +1,35 @@
+#!/bin/bash
+# SPDX-license-identifier: Apache-2.0
+##############################################################################
+# Copyright (c) 2023
+# All rights reserved. This program and the accompanying materials
+# are made available under the terms of the Apache License, Version 2.0
+# which accompanies this distribution, and is available at
+# http://www.apache.org/licenses/LICENSE-2.0
+##############################################################################
+
+set -o pipefail
+set -o errexit
+set -o nounset
+[[ ${DEBUG:-false} != "true" ]] || set -o xtrace
+
+# shellcheck source=./scripts/_assertions.sh
+source _assertions.sh
+
+# shellcheck source=./scripts/_common.sh
+source _common.sh
+
+trap get_status ERR
+
+for context in $(kubectl config get-contexts --no-headers --output name); do
+    kubectl config use-context "$context"
+    if [[ $context == "kind-nephio"* ]]; then
+        info "Assert Nephio installation"
+        assert_contains "$(kubectl get deploy -n nephio-system -o jsonpath='{.items[*].metadata.name}')" package-deployment-controller
+
+        info "Assert Nephio UI installation"
+        assert_contains "$(kubectl get deploy -n nephio-webui -o jsonpath='{.items[*].metadata.name}')" nephio-webui
+    fi
+    info "Assert Config Sync installation"
+    assert_contains "$(kubectl api-resources --context kind-nephio --api-group=configsync.gke.io)" reposyncs
+done

@@ -1,0 +1,31 @@
+---
+# SPDX-license-identifier: Apache-2.0
+##############################################################################
+# Copyright (c) 2022
+# All rights reserved. This program and the accompanying materials
+# are made available under the terms of the Apache License, Version 2.0
+# which accompanies this distribution, and is available at
+# http://www.apache.org/licenses/LICENSE-2.0
+##############################################################################
+
+clusters:
+  nephio:
+    nodeSubnet: "172.88.0.0/16"
+    cluster:
+      networking:
+        kubeProxyMode: "ipvs"
+        podSubnet: "10.196.0.0/16"
+        serviceSubnet: "10.96.0.0/16"
+      nodes:
+        - role: control-plane
+          image: kindest/node:v1.25.3
+  regional:
+    nodeSubnet: "172.89.0.0/16"
+    cluster:
+      networking:
+        kubeProxyMode: "ipvs"
+        podSubnet: "10.197.0.0/16"
+        serviceSubnet: "10.97.0.0/16"
+      nodes:
+        - role: control-plane
+          image: kindest/node:v1.25.3
