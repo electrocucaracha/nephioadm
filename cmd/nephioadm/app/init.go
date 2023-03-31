@@ -14,15 +14,15 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-package nephioadm
+package app
 
 import (
-	"github.com/electrocucaracha/nephioadm/internal/app"
+	internal "github.com/electrocucaracha/nephioadm/internal/app"
 	"github.com/pkg/errors"
 	"github.com/spf13/cobra"
 )
 
-func NewInitCommand(provider app.Provider) *cobra.Command {
+func NewInitCommand(provider internal.Provider) *cobra.Command {
 	var globalOpts GlobalOptions
 
 	cmd := &cobra.Command{
@@ -32,7 +32,7 @@ func NewInitCommand(provider app.Provider) *cobra.Command {
 			backendBaseUrl, _ := cmd.Flags().GetString("backend-base-url")
 			webUIClusterType, _ := cmd.Flags().GetString("webui-cluster-type")
 
-			runnerOpts := &app.NephioRunnerOptions{
+			runnerOpts := &internal.NephioRunnerOptions{
 				BasePath:         globalOpts.basePath,
 				NephioRepoURI:    globalOpts.nephioRepoURI,
 				GitServiceURI:    globalOpts.gitServiceURI,

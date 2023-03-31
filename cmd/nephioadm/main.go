@@ -11,22 +11,10 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-package nephioadm_test
+package main
 
-import (
-	app "github.com/electrocucaracha/nephioadm/cmd/nephioadm"
-	. "github.com/onsi/ginkgo/v2"
-	. "github.com/onsi/gomega"
-)
+import "github.com/electrocucaracha/nephioadm/cmd/nephioadm/app"
 
-var _ = Describe("Root Command", func() {
-	const numberImplementedCommands = 2
-
-	Describe("Initialization process", func() {
-		Context("when default options are provided", func() {
-			It("should contain more than 2 subcommands", func() {
-				Expect(app.NewRootCommand().Commands()).To(HaveLen(numberImplementedCommands))
-			})
-		})
-	})
-})
+func main() {
+	app.Execute()
+}

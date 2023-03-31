@@ -14,21 +14,21 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-package nephioadm_test
+package app_test
 
 import (
-	"github.com/electrocucaracha/nephioadm/cmd/nephioadm"
-	"github.com/electrocucaracha/nephioadm/internal/app"
+	"github.com/electrocucaracha/nephioadm/cmd/nephioadm/app"
+	internal "github.com/electrocucaracha/nephioadm/internal/app"
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
 	"github.com/spf13/cobra"
 )
 
 type mock struct {
-	Opts *app.NephioRunnerOptions
+	Opts *internal.NephioRunnerOptions
 }
 
-func (m *mock) Init(opts *app.NephioRunnerOptions) error {
+func (m *mock) Init(opts *internal.NephioRunnerOptions) error {
 	m.Opts = opts
 
 	return nil
@@ -37,7 +37,7 @@ func (m *mock) Init(opts *app.NephioRunnerOptions) error {
 var _ = Describe("Init Command", func() {
 	var provider mock
 	var cmd *cobra.Command
-	testData := &app.NephioRunnerOptions{
+	testData := &internal.NephioRunnerOptions{
 		BasePath:         "/tmp",
 		NephioRepoURI:    "http://gitea:3000/playground/test.git",
 		GitServiceURI:    "http://gitea:3000/nephio-test",
@@ -48,7 +48,7 @@ var _ = Describe("Init Command", func() {
 
 	BeforeEach(func() {
 		provider = mock{}
-		cmd = nephioadm.NewInitCommand(&provider)
+		cmd = app.NewInitCommand(&provider)
 	})
 
 	DescribeTable("initialization execution process", func(shouldSucceed bool, args ...string) {

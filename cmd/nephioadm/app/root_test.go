@@ -11,16 +11,22 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-package main
+package app_test
 
 import (
-	"os"
-
-	"github.com/electrocucaracha/nephioadm/cmd/nephioadm"
+	"github.com/electrocucaracha/nephioadm/cmd/nephioadm/app"
+	. "github.com/onsi/ginkgo/v2"
+	. "github.com/onsi/gomega"
 )
 
-func main() {
-	if err := nephioadm.NewRootCommand().Execute(); err != nil {
-		os.Exit(1)
-	}
-}
+var _ = Describe("Root Command", func() {
+	const numberImplementedCommands = 2
+
+	Describe("Initialization process", func() {
+		Context("when default options are provided", func() {
+			It("should contain more than 2 subcommands", func() {
+				Expect(app.NewRootCommand().Commands()).To(HaveLen(numberImplementedCommands))
+			})
+		})
+	})
+})

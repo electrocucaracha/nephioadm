@@ -14,10 +14,12 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-package nephioadm
+package app
 
 import (
-	"github.com/electrocucaracha/nephioadm/internal/app"
+	"os"
+
+	internal "github.com/electrocucaracha/nephioadm/internal/app"
 	"github.com/electrocucaracha/nephioadm/internal/k8s"
 	"github.com/electrocucaracha/nephioadm/internal/kpt"
 	"github.com/spf13/cobra"
@@ -36,7 +38,7 @@ func NewRootCommand() *cobra.Command {
 		Short: "nephioadm: easily bootstrap Nephio cluster",
 	}
 
-	provider := app.NewProvider(&kpt.CommandLine{}, k8s.ReadResourceFromFile,
+	provider := internal.NewProvider(&kpt.CommandLine{}, k8s.ReadResourceFromFile,
 		k8s.WriteResourceToFile)
 
 	cmd.AddCommand(NewInitCommand(provider))
@@ -45,10 +47,18 @@ func NewRootCommand() *cobra.Command {
 	return cmd
 }
 
+// Execute adds all child commands to the root command and sets flags appropriately.
+// This is called by main.main(). It only needs to happen once to the rootCmd.
+func Execute() {
+	if err := NewRootCommand().Execute(); err != nil {
+		os.Exit(1)
+	}
+}
+
 func GetCommandFlags(cmd *cobra.Command, opts *GlobalOptions) *cobra.Command {
 	flags := cmd.Flags()
 
-	flags.StringVar(&opts.basePath, "base-path", app.DefaultBasePath,
+	flags.StringVar(&opts.basePath, "base-path", internal.DefaultBasePath,
 		"The local directory to write the Nephio's packages to")
 	flags.StringVar(&opts.nephioRepoURI, "nephio-repo", "https://github.com/nephio-project/nephio-packages.git",
 		"URI of a git repository containing Nephio's packages (System, WebUI, ConfigSync) as subdirectories")

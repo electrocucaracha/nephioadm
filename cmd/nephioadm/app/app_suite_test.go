@@ -11,7 +11,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-package nephioadm_test
+package app_test
 
 import (
 	"testing"
@@ -20,9 +20,9 @@ import (
 	. "github.com/onsi/gomega"
 )
 
-func TestNephioAdm(t *testing.T) {
+func TestApp(t *testing.T) {
 	t.Parallel()
 
 	RegisterFailHandler(Fail)
-	RunSpecs(t, "Nephio Adm Suite")
+	RunSpecs(t, "Nephio App Suite")
 }

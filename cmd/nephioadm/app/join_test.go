@@ -14,17 +14,17 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-package nephioadm_test
+package app_test
 
 import (
-	"github.com/electrocucaracha/nephioadm/cmd/nephioadm"
-	"github.com/electrocucaracha/nephioadm/internal/app"
+	"github.com/electrocucaracha/nephioadm/cmd/nephioadm/app"
+	internal "github.com/electrocucaracha/nephioadm/internal/app"
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
 	"github.com/spf13/cobra"
 )
 
-func (m *mock) Join(opts *app.NephioRunnerOptions) error {
+func (m *mock) Join(opts *internal.NephioRunnerOptions) error {
 	m.Opts = opts
 
 	return nil
@@ -33,7 +33,7 @@ func (m *mock) Join(opts *app.NephioRunnerOptions) error {
 var _ = Describe("Join Command", func() {
 	var provider mock
 	var cmd *cobra.Command
-	testData := &app.NephioRunnerOptions{
+	testData := &internal.NephioRunnerOptions{
 		BasePath:      "/tmp",
 		NephioRepoURI: "http://gitea:3000/playground/test.git",
 		GitServiceURI: "http://gitea:3000/nephio-test",
@@ -42,7 +42,7 @@ var _ = Describe("Join Command", func() {
 
 	BeforeEach(func() {
 		provider = mock{}
-		cmd = nephioadm.NewJoinCommand(&provider)
+		cmd = app.NewJoinCommand(&provider)
 	})
 
 	DescribeTable("join execution process", func(shouldSucceed bool, args ...string) {

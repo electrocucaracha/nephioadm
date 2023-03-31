@@ -14,22 +14,22 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-package nephioadm
+package app
 
 import (
-	"github.com/electrocucaracha/nephioadm/internal/app"
+	internal "github.com/electrocucaracha/nephioadm/internal/app"
 	"github.com/pkg/errors"
 	"github.com/spf13/cobra"
 )
 
-func NewJoinCommand(provider app.Provider) *cobra.Command {
+func NewJoinCommand(provider internal.Provider) *cobra.Command {
 	var opts GlobalOptions
 
 	cmd := &cobra.Command{
 		Use:   "join",
 		Short: "Run this command in order to join a Cluster to the existing Nephio control plane",
 		RunE: func(cmd *cobra.Command, args []string) error {
-			opts := &app.NephioRunnerOptions{
+			opts := &internal.NephioRunnerOptions{
 				BasePath:      opts.basePath,
 				NephioRepoURI: opts.nephioRepoURI,
 				GitServiceURI: opts.gitServiceURI,
