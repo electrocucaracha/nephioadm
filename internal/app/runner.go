@@ -17,7 +17,6 @@ limitations under the License.
 package app
 
 import (
-	"fmt"
 	"io/ioutil"
 	"os"
 
@@ -147,7 +146,13 @@ func (r *NephioRunner) setBackendBaseUrl(filename, backendBaseUrl string) error 
 
 	backend["baseUrl"] = backendBaseUrl
 	backstageConfig["backend"] = backend
-	configMap.Data["app-config.nephio.yaml"] = fmt.Sprintf("%v", backstageConfig)
+
+	data, err := yaml.Marshal(backstageConfig)
+	if err != nil {
+		return err
+	}
+
+	configMap.Data["app-config.nephio.yaml"] = string(data[:])
 
 	if err := r.writeResourceFunc(os.Create, filename, &configMap); err != nil {
 		return err
