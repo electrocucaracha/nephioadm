@@ -35,5 +35,5 @@ fi
 if ! command -v multicluster >/dev/null; then
     # shellcheck disable=SC1091
     [ -f /etc/profile.d/path.sh ] && source /etc/profile.d/path.sh
-    GOBIN=/usr/local/bin/ sudo -E "$(command -v go)" install github.com/electrocucaracha/multi-cluster/cmd/multicluster@latest
+    GOBIN=/usr/local/bin/ sudo -E "$(command -v go)" install github.com/electrocucaracha/multicluster/cmd/multicluster@latest
 fi
