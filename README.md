@@ -9,31 +9,70 @@
 
 This tool provisions [Nephio][1] components on target clusters
 
+## Installation
+
 ```bash
-go install github.com/electrocucaracha/nephioadm/...
-nephioadm init --base-path "/opt/nephio/mgmt" --git-service "http:/gitea-server:3000/nephio-playground" 
+go install github.com/electrocucaracha/nephioadm/cmd/nephioadm@latest
+```
+
+## Usage
+
+For management components (system, webui and configsync packages):
+
+```bash
+nephioadm init \
+    --base-path "/opt/nephio/mgmt" \
+    --git-service "http:/gitea-server:3000/nephio-playground" \
+    --backend-base-url "http://localhost:7007" \
+    --webui-cluster-type NodePort
+```
+
+For workload components (configsync package):
+
+```bash
+nephioadm join \
+    --base-path "/opt/nephio/mgmt" \
+    --git-service "http:/gitea-server:3000/nephio-playground" 
 ```
 
 ## Provisioning process
 
-The [Vagrant tool][2] can be used for provisioning an Ubuntu Focal
-Virtual Machine. It's highly recommended to use the  *setup.sh* script
-of the [bootstrap-vagrant project][3] for installing Vagrant
-dependencies and plugins required for this project. That script
-supports two Virtualization providers (Libvirt and VirtualBox) which
-are determine by the **PROVIDER** environment variable.
+This process uses two main components:
 
-```bash
-curl -fsSL http://bit.ly/initVagrant | PROVIDER=libvirt bash
+* Nephio packages ([official repository][1] by default). The `--nephio-repo`
+argument allows the consumption of other sources. This can be useful during the
+Nephio development and testing processes.
+* Target clusters. Currently, this tool installs Nephio components on the
+current pointing Kubernetes cluster. This cluster must be reachable from the
+tool and requires the installation of [kpt CLI][2].
+
+```text
+          +-------------------------------------------------------+
+          |   https://github.com/nephio-project/nephio-packages   |
+          |    +----------+    +--------------+    +---------+    |
+          |    |  system  |    |  configsync  |    |  webui  |    |
+          |    +----------+    +--------------+    +---------+    |
+          +-------------------------------------------------------+
+
+                               +-----------+
+                               | nephioadm |
+                               +-----------+
+
++---------------------------------+     +---------------------------------+
+| mgmt (k8s)                      |     | workload (k8s)                  |
+| +-----------------------------+ |     | +-----------------------------+ |
+| | mgmt-control-plane          | |     | | workload-control-plane      | |
+| | podSubnet: 10.196.0.0/16    | |     | | podSubnet: 10.197.0.0/16    | |
+| | serviceSubnet: 10.96.0.0/16 | |     | | serviceSubnet: 10.97.0.0/16 | |
+| +-----------------------------+ |     | +-----------------------------+ |
++---------------------------------+     +---------------------------------+
 ```
 
-Once Vagrant is installed, it's possible to provision a Virtual
-Machine using the following instructions:
+The `--git-service` argument specifies the URL of the repository used by
+[ConfigSync][3] and [Porch][4] components.
 
-```bash
-vagrant up
-```
 
-[1]: https://nephio.org/
-[2]: https://www.vagrantup.com/
-[3]: https://github.com/electrocucaracha/bootstrap-vagrant
+[1]: https://github.com/nephio-project/nephio-packages.git
+[2]: https://kpt.dev/installation/kpt-cli
+[3]: https://cloud.google.com/anthos-config-management/docs/config-sync-overview
+[4]: https://kpt.dev/book/08-package-orchestration/
