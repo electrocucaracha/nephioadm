@@ -9,6 +9,11 @@
 
 DOCKER_CMD ?= $(shell which docker 2> /dev/null || which podman 2> /dev/null || echo docker)
 
+.PHONY: build
+build: test
+	mkdir -p ./bin
+	@go build -v -o ./bin/ ./...
+
 test:
 	@go test -v ./...
 
