@@ -55,8 +55,6 @@ func (p NephioProvider) Init(opts *NephioRunnerOptions) error {
 		return err
 	}
 
-	runner.InstallConfigSync()
-
 	return nil
 }
 

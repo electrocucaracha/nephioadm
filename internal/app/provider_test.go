@@ -112,11 +112,11 @@ func NewNephioRunnerOptions(debug bool, args ...string) *app.NephioRunnerOptions
 	return opts
 }
 
-func (c *mockClient) checkCallerCountsFromProvider(debug bool, expected int) {
+func (c *mockClient) checkCallerCountsFromProvider(debug bool, expected, expectedEvalCalls int) {
 	Expect(c.SetLocalPathCallerCount).Should(Equal(expected))
 	Expect(c.PkgGetCallerCount).Should(Equal(expected))
 	Expect(c.FnRenderCallerCount).Should(Equal(expected))
-	Expect(c.FnEvalCallerCount).Should(Equal(1))
+	Expect(c.FnEvalCallerCount).Should(Equal(expectedEvalCalls))
 	Expect(c.LiveInitCallerCount).Should(Equal(expected))
 	Expect(c.LiveApplyCallerCount).Should(Equal(expected))
 
@@ -144,7 +144,7 @@ var _ = Describe("Provider Service", func() {
 		err := provider.Init(NewNephioRunnerOptions(debug, args...))
 
 		Expect(err).NotTo(HaveOccurred())
-		client.checkCallerCountsFromProvider(debug, 3)
+		client.checkCallerCountsFromProvider(debug, 2, 0)
 	},
 		Entry("when the no options are provided", true),
 		Entry("when Base path option is provided", true, "/opt/nephio"),
@@ -166,7 +166,7 @@ var _ = Describe("Provider Service", func() {
 		err := provider.Join(NewNephioRunnerOptions(debug, args...))
 
 		Expect(err).NotTo(HaveOccurred())
-		client.checkCallerCountsFromProvider(debug, 1)
+		client.checkCallerCountsFromProvider(debug, 1, 1)
 	},
 		Entry("when the no options are provided", true),
 		Entry("when Base path option is provided", true, "/test/"),

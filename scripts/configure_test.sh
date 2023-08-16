@@ -29,7 +29,8 @@ for context in $(kubectl config get-contexts --no-headers --output name); do
 
         info "Assert Nephio UI installation"
         assert_contains "$(kubectl get deploy -n nephio-webui -o jsonpath='{.items[*].metadata.name}')" nephio-webui
+    else
+        info "Assert Config Sync installation"
+        assert_contains "$(kubectl api-resources --api-group=configsync.gke.io)" reposyncs
     fi
-    info "Assert Config Sync installation"
-    assert_contains "$(kubectl api-resources --context kind-nephio --api-group=configsync.gke.io)" reposyncs
 done
