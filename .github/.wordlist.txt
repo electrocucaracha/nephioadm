@@ -18,6 +18,7 @@ init
 initVagrant
 kpt
 Kubernetes
+laobi
 Libvirt
 Linter
 localhost

@@ -5,7 +5,8 @@
 [![Ruby Style Guide](https://img.shields.io/badge/code_style-rubocop-brightgreen.svg)](https://github.com/rubocop/rubocop)
 [![Go Report Card](https://goreportcard.com/badge/github.com/electrocucaracha/nephioadm)](https://goreportcard.com/report/github.com/electrocucaracha/nephioadm)
 [![GoDoc](https://godoc.org/github.com/electrocucaracha/nephioadm?status.svg)](https://godoc.org/github.com/electrocucaracha/nephioadm)
-![visitors](https://visitor-badge.glitch.me/badge?page_id=electrocucaracha.nephioadm)
+<!-- markdown-link-check-disable-next-line -->
+![visitors](https://visitor-badge.laobi.icu/badge?page_id=electrocucaracha.nephioadm)
 
 This tool provisions [Nephio][1] components on target clusters
 
