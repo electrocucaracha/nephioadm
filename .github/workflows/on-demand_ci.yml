@@ -33,7 +33,7 @@ jobs:
       scripts: ${{ steps.filter.outputs.scripts }}
       golang: ${{ steps.filter.outputs.golang }}
     steps:
-      - uses: actions/checkout@v3.5.3
+      - uses: actions/checkout@v4.0.0
       - uses: dorny/paths-filter@v2.11.1
         if: ${{ !env.ACT }}
         id: filter
@@ -50,7 +50,7 @@ jobs:
     needs: changes
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3.5.3
+      - uses: actions/checkout@v4.0.0
       - name: Run the sh-checker
         uses: luizm/action-sh-checker@v0.7.0
         env:
@@ -64,7 +64,7 @@ jobs:
     needs: changes
     runs-on: ubuntu-20.04
     steps:
-      - uses: actions/checkout@v3.5.3
+      - uses: actions/checkout@v4.0.0
       - uses: actions/setup-go@v4.0.0
         with:
           go-version: '^1.20'
@@ -94,7 +94,7 @@ jobs:
     needs: check-scripts-format
     runs-on: ubuntu-20.04
     steps:
-      - uses: actions/checkout@v3.5.3
+      - uses: actions/checkout@v4.0.0
       - uses: actions/setup-go@v4.0.0
         with:
           go-version: '^1.20'
